@@ -1,0 +1,33 @@
+name: PR
+on:
+  push:
+    pull_request:
+      - master
+
+jobs:
+  pr-job:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-go@v2-beta
+      with:
+        stable: 'true'
+        go-version: '1.13.7'
+    - name: Run Unit Test
+        run: go test .
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+       version: '275.0.0'
+       service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+       service_account_key: ${{ secrets.GCP_SA_KEY }}
+    - name: gcloud Set up
+       run: |
+         gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
+    - name: Deploy Function
+        run: |
+        gcloud functions deploy ${{ }}
+        --source https://source.developers.google.com/projects/${{ secrets.GCP_PROJECT_ID }}/repos/${{ secrets.GCP_GITHUB_PROJECT_ID }}/moveable-aliases/${GITHUB_REF##*/}/paths/SOURCE \
+        --runtime RUNTIME 
+    - name: Run Integration Test
+      run: ./run_integration.sh
