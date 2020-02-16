@@ -15,7 +15,7 @@ jobs:
         stable: 'true'
         go-version: '1.13.7'
     - name: Run Unit Tests
-      run: go test .
+      run: make test 
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
        service_account_email: ${{ secrets.GCP_SA_EMAIL }}
@@ -25,8 +25,10 @@ jobs:
          gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
     - name: Deploy Functions
       run: make deploy
+    - name: Run Smoke Tests
+      run: make smoke
     - name: Run Integration Tests
-      run: sleep 10
+      run: make integration
     - name: Undeploy Functions
       run: make delete
     - name: Semantic Release

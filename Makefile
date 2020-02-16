@@ -5,3 +5,12 @@ deploy:
 
 delete:
 	gcloud functions delete subscribe --region europe-west1
+
+test:
+	go test .
+
+integration: # TODO add integration tests
+	go test .
+
+smoke: # TODO add smoke tests
+	go test .
