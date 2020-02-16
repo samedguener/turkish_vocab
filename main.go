@@ -6,3 +6,7 @@ func main() {
 
 	fmt.Println("This is the beginning!")
 }
+
+func subscribeVocabTrainer() {
+
+}
