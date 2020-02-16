@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestHello(t *testing.T) {
+func TestSubscribe(t *testing.T) {
 	tests := map[string]struct {
 		name       string
 		wantStatus int

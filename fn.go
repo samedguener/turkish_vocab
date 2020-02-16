@@ -5,8 +5,8 @@ import (
 	"net/http"
 )
 
-// Hello ...
-func Hello(w http.ResponseWriter, r *http.Request) {
+// Subscribe ...
+func Subscribe(w http.ResponseWriter, r *http.Request) {
 	name := r.URL.Query().Get("name")
 	if name == "" {
 		name = "someone"
