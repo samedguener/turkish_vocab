@@ -25,7 +25,7 @@ func TestSubscribe(t *testing.T) {
 			q.Add("name", te.name)
 			r.URL.RawQuery = q.Encode()
 
-			Hello(w, r)
+			Subscribe(w, r)
 
 			rw := w.Result()
 			defer rw.Body.Close()
