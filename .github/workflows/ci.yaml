@@ -25,6 +25,7 @@ jobs:
       with:
        service_account_email: ${{ secrets.GCP_SA_EMAIL }}
        service_account_key: ${{ secrets.GCP_SA_KEY }}
+       CLOUDSDK_PYTHON_SITEPACKAGES: 1
     - name: gcloud Set up
       run: |
          gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
