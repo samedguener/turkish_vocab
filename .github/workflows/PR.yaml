@@ -31,10 +31,10 @@ jobs:
       run: |
          gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
     - name: Deploy Functions
-      run: make deploy environment=staging branch=${{ github.head_ref }} commit=${{ github.sha }}
+      run: make deploy environment=staging commit=${{ github.sha }}
     - name: Run Smoke Tests
       run: make smoke
     - name: Run Integration Tests
       run: make integration
     - name: Undeploy Functions
-      run: make delete environment=staging branch=${{ github.head_ref }} commit=${{ github.sha }}
+      run: make delete environment=staging commit=${{ github.sha }}
