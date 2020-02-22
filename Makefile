@@ -1,10 +1,10 @@
 .PHONY: deploy delete
 
 deploy:
-	gcloud functions deploy subscribe_$(environment) --entry-point Subscribe --runtime go113 --trigger-http --memory 128MB --region europe-west1
+	gcloud functions deploy subscribe_$(environment)_$(version)_$(commit) --entry-point Subscribe --runtime go113 --trigger-http --memory 128MB --region europe-west1
 
 delete:
-	gcloud functions delete subscribe_$(environment) --region europe-west1
+	gcloud functions delete subscribe_$(environment)_$(version)_$(commit) --region europe-west1
 
 test:
 	go test .
