@@ -32,11 +32,11 @@ jobs:
     - name: gcloud Set up
       run: |
          gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
-    - name: Deploy Functions
+    - name: Deploy Functions to Staging
       run: make deploy environment=${{ env.environment }} commit=$(echo ${GITHUB_SHA} | cut -c1-8)
     - name: Run Smoke Tests
       run: make smoke
     - name: Run Integration Tests
       run: make integration
-    - name: Undeploy Functions
+    - name: Undeploy Functions from Staging
       run: make delete environment=${{ env.environment }} commit=$(echo ${GITHUB_SHA} | cut -c1-8)

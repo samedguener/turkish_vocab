@@ -23,7 +23,7 @@ jobs:
     - name: gcloud Set up
       run: |
          gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
-    - name: Deploy Functions
+    - name: Deploy Functions to Pre-Prodcution
       run: make deploy_preprod
     - name: Run Integration Tests
       run: sleep 10
