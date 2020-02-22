@@ -12,8 +12,8 @@ jobs:
     - uses: actions/checkout@master
     - uses: deepakputhraya/action-pr-title@master
       with:
-        regex: '([a-z\[\]])+\/([a-z\[\]])+' # Regex the title should match.
-        allowed_prefixes: '[feature],[chore],[fix]'
+        regex: '([a-z\(\)])+:([a-z ])+'
+        allowed_prefixes: 'feature,chore,fix'
         prefix_case_sensitive: false
         min_length: 5
         max_length: 20
