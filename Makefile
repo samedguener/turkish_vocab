@@ -6,6 +6,9 @@ deploy:
 delete:
 	gcloud functions delete subscribe_$(environment)_$(commit) --region europe-west1
 
+deploy_preprod:
+	gcloud functions deploy subscribe_preprod --entry-point Subscribe --runtime go113 --trigger-http --memory 128MB --region europe-west1
+
 test:
 	go test .
 
