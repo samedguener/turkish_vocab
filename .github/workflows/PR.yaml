@@ -16,7 +16,7 @@ jobs:
         allowed_prefixes: 'feature,chore,fix'
         prefix_case_sensitive: false
         min_length: 5
-        max_length: 20
+        max_length: 50
     - uses: actions/setup-go@v2-beta
       with:
         stable: 'true'
