@@ -24,13 +24,13 @@ jobs:
       run: |
          gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
     - name: Deploy Functions
-      run: make deploy
+      run: make deploy environment=staging
     - name: Run Smoke Tests
       run: make smoke
     - name: Run Integration Tests
       run: make integration
     - name: Undeploy Functions
-      run: make delete
+      run: make delete environment=staging
     - name: Semantic Release
       uses: cycjimmy/semantic-release-action@v2.1.3
       env:
