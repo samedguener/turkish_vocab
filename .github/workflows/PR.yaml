@@ -24,10 +24,10 @@ jobs:
       run: |
          gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
     - name: Deploy Functions
-      run: make deploy environment=staging version=${{ steps.semantic.outputs.new_release_version }} commit=${GITHUB_SHA:5}
+      run: make deploy environment=staging branch=${github.ref} commit=${github.sha}
     - name: Run Smoke Tests
       run: make smoke
     - name: Run Integration Tests
       run: make integration
     - name: Undeploy Functions
-      run: make delete environment=staging version=${{ steps.semantic.outputs.new_release_version }} commit=${GITHUB_SHA:5}
+      run: make delete environment=staging branch=${github.ref} commit=${github.sha}
