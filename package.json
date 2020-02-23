@@ -12,5 +12,8 @@
       "bugs": {
         "url": "https://github.com/samedguener/turkish_vocab/issues"
       },
-      "homepage": "https://github.com/samedguener/turkish_vocab"
+      "homepage": "https://github.com/samedguener/turkish_vocab",
+      "release": {
+        "plugins" : ["@semantic-release/commit-analyzer", "@semantic-release/release-notes-generator", "@semantic-release/github"]
+      }
   }
