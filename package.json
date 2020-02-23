@@ -1,0 +1,16 @@
+{
+    "name": "turkish-vocab",
+    "description": "Serverless Functions for Daily Training of Turkish Vocabs",
+    "version": "0.1.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ashleygwilliams/my_package.git"
+      },
+      "keywords": [],
+      "author": "Samed Güner <github@samedguener.com>",
+      "license": "MIT",
+      "bugs": {
+        "url": "https://github.com/samedguener/turkish_vocab/issues"
+      },
+      "homepage": "https://github.com/samedguener/turkish_vocab"
+  }
