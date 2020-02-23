@@ -1,0 +1,33 @@
+name: PR
+on:
+  push:
+    branches:
+        - master
+
+jobs:
+  master-job:
+    name: master
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2.0.0
+    - uses: actions/setup-go@v1.1.2
+      with:
+        stable: 'true'
+        go-version: '1.13.7'
+    - name: Run Unit Tests
+      run: go test .
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@0.1.1
+      with:
+       service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+       service_account_key: ${{ secrets.GCP_SA_KEY }}
+    - name: gcloud Set up
+      run: |
+         gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
+    - name: Deploy Functions to Pre-Prodcution
+      run: make deploy_preprod
+    - name: Run Integration Tests
+      run: sleep 10
+    - name: Semantic Release
+      uses: cycjimmy/semantic-release-action@v2.1.3
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
