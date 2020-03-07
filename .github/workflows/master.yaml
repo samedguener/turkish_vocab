@@ -23,7 +23,9 @@ jobs:
     - name: gcloud Set up
       run: |
          gcloud config set project ${{ secrets.GCP_PROJECT_ID_PREPRODUCTION }}
-    - name: Deploy Functions to Pre-Prodcution
+    - name: Deploy ESP Gateway and Endpoints
+      run: ./scripts/deploy_esp_endpoints.sh turkish-vocab-api ${{ secrets.GCP_PROJECT_ID_PREPRODUCTION}} ${{ env.region }} ""
+    - name: Deploy Functions to Preprodcution
       run: make deploy
     - name: Run Integration Tests
       run: sleep 10
