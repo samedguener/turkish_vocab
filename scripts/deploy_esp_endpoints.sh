@@ -6,7 +6,7 @@ REGION=$3
 COMMIT=$4
 
 echo "Deploying ESP Gateway .."
-output=$(gcloud run deploy $IMAGE_NAME --image="gcr.io/endpoints-release/endpoints-runtime-serverless:2" --allow-unauthenticated --platform managed --project=$PROJECT_ID --region $REGION 2>&1)
+output=$(gcloud run deploy $IMAGE_NAME --image="gcr.io/endpoints-release/endpoints-runtime-serverless:2" --allow-unauthenticated --platform managed --project=$PROJECT_ID --region $REGION)
 CLOUD_RUN_HOSTNAME=$(echo $output | tr ' ' '\n' | grep "run.app")
 CLOUD_RUN_HOSTNAME=${CLOUD_RUN_HOSTNAME#"https://"}
 

@@ -8,9 +8,6 @@ parser.add_argument('--output', help='Name of the output files (Default: Overwri
 parser.add_argument('--values', nargs='+', help='Values to be replaced and replaced with (e.g environment="staging")')
 
 args = parser.parse_args()
-print(args.input)
-print(args.output)
-print(args.values)
 
 with open(args.input) as f:
     newText = f.read()
