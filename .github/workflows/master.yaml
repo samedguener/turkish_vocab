@@ -8,6 +8,8 @@ jobs:
   master-job:
     name: master
     runs-on: ubuntu-latest
+    env:
+      region : europe-west1
     steps:
     - uses: actions/checkout@v2.0.0
     - uses: actions/setup-go@v1.1.2
