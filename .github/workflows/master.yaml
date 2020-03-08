@@ -18,13 +18,15 @@ jobs:
       run: go test .
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@0.1.1
       with:
-       service_account_email: ${{ secrets.GCP_SA_EMAIL }}
-       service_account_key: ${{ secrets.GCP_SA_KEY }}
+       service_account_email: ${{ secrets.GCP_SA_EMAIL_PREPRODUCTION }}
+       service_account_key: ${{ secrets.GCP_SA_SECRET_PREPRODUCTION }}
     - name: gcloud Set up
       run: |
-         gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
-    - name: Deploy Functions to Pre-Prodcution
-      run: make deploy_preprod
+         gcloud config set project ${{ secrets.GCP_PROJECT_ID_PREPRODUCTION }}
+    - name: Deploy ESP Gateway and Endpoints
+      run: ./scripts/deploy_esp_endpoints.sh turkish-vocab-api ${{ secrets.GCP_PROJECT_ID_PREPRODUCTION}} ${{ env.region }} ""
+    - name: Deploy Functions to Preprodcution
+      run: make deploy
     - name: Run Integration Tests
       run: sleep 10
     - name: Semantic Release
