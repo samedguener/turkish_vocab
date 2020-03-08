@@ -43,4 +43,4 @@ jobs:
     - name: Undeploy Functions from Staging
       run: make delete commit=$(echo ${GITHUB_SHA} | cut -c1-8) region=${{ env.region }}
     - name: Delete ESP Gateway and Endpoints
-      run: gcloud run services delete turkish-vocab-api-$(echo ${GITHUB_SHA} | cut -c1-8) --platform managed --region ${{ env.region }}
+      run: gcloud run services delete turkish-vocab-api-$(echo ${GITHUB_SHA} | cut -c1-8) --platform managed --region ${{ env.region }} -q
