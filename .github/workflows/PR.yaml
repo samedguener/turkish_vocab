@@ -35,12 +35,12 @@ jobs:
     - name: Deploy ESP Gateway and Endpoints
       run: ./scripts/deploy_esp_endpoints.sh turkish-vocab-api-$(echo ${GITHUB_SHA} | cut -c1-8) ${{ secrets.GCP_PROJECT_ID_STAGING}} ${{ env.region }} $(echo ${GITHUB_SHA} | cut -c1-8)
     - name: Deploy Functions to Staging
-      run: make deploy commit=$(echo ${GITHUB_SHA} | cut -c1-8)
+      run: make deploy commit=$(echo ${GITHUB_SHA} | cut -c1-8) region=${{ env.region }} serviceaccount=${{ secrets.GCP_SA_EMAIL_STAGING }}
     - name: Run Smoke Tests
       run: make smoke
     - name: Run Integration Tests
       run: make integration
-    - name: Undeploy Functions from Staging
-      run: make delete commit=$(echo ${GITHUB_SHA} | cut -c1-8) region=${{ env.region }}
-    - name: Delete ESP Gateway and Endpoints
-      run: gcloud run services delete turkish-vocab-api-$(echo ${GITHUB_SHA} | cut -c1-8) --platform managed --region ${{ env.region }} -q
+    #- name: Undeploy Functions from Staging
+    # run: make delete commit=$(echo ${GITHUB_SHA} | cut -c1-8) region=${{ env.region }}
+    #- name: Delete ESP Gateway and Endpoints
+    #  run: gcloud run services delete turkish-vocab-api-$(echo ${GITHUB_SHA} | cut -c1-8) --platform managed --region ${{ env.region }} -q
