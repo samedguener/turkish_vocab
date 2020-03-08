@@ -10,7 +10,7 @@ produces:
   - application/json
 paths:
   /subscription:
-    post:
+    get:
       summary: Subscribe to Turkish Vocab
       operationId: hello
       x-google-backend:
