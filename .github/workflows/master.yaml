@@ -16,7 +16,7 @@ jobs:
         go-version: '1.13.7'
     - name: Run Unit Tests
       run: go test .
-    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@0.1.2
       with:
        service_account_email: ${{ secrets.GCP_SA_EMAIL_PREPRODUCTION }}
        service_account_key: ${{ secrets.GCP_SA_SECRET_PREPRODUCTION }}
