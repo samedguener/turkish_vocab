@@ -1,10 +1,10 @@
 .PHONY: deploy delete
 
 deploy:
-	gcloud functions deploy subscribe$(commit) --entry-point Subscribe --runtime go113 --trigger-http --memory 128MB --region $(region)
+	gcloud functions deploy subscriptions$(commit) --entry-point Subscribe --runtime go113 --trigger-http --memory 128MB --region $(region) --service-account $(serviceaccount)
 
 delete:
-	gcloud functions delete subscribe$(commit) --region europe-west1
+	gcloud functions delete subscriptions$(commit) --region $(region)
 
 test:
 	go test .
