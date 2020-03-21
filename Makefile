@@ -6,12 +6,6 @@ deploy:
 delete:
 	gcloud functions delete subscriptions$(commit) --region $(region)
 
-grant_permission:
-	gcloud functions add-iam-policy-binding subscription$(commit) --region $(region) \
-   --member "serviceAccount:$(serviceaccount)" \
-   --role "roles/cloudfunctions.invoker" \
-   --project $(project)
-
 test:
 	go test .
 

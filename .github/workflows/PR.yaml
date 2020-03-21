@@ -36,8 +36,6 @@ jobs:
       run: ./scripts/deploy_esp_endpoints.sh turkish-vocab-api-$(echo ${GITHUB_SHA} | cut -c1-8) ${{ secrets.GCP_PROJECT_ID_STAGING}} ${{ env.region }} $(echo ${GITHUB_SHA} | cut -c1-8)
     - name: Deploy Functions to Staging
       run: make deploy commit=$(echo ${GITHUB_SHA} | cut -c1-8) region=${{ env.region }} serviceaccount=${{ secrets.GCP_SA_EMAIL_STAGING }}
-    - name: Grant Permission to ESP
-      run: make grant_permission commit=$(echo ${GITHUB_SHA} | cut -c1-8) region=${{ env.region }} serviceaccount=${{ secrets.GCP_SA_EMAIL_STAGING }} project=${{ secrets.GCP_PROJECT_ID_STAGING}}
       #- name: Run Smoke Tests
     #  run: make smoke
     #- name: Run Integration Tests
