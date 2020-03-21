@@ -9,12 +9,12 @@ schemes:
 produces:
   - application/json
 paths:
-  /subscription:
+  /subscriptions:
     get:
       summary: Subscribe to Turkish Vocab
       operationId: hello
       x-google-backend:
-        address: https://$region-$projectid.cloudfunctions.net/subscription$commit
+        address: https://$region-$projectid.cloudfunctions.net/subscriptions$commit
       responses:
         '200':
           description: A successful response
