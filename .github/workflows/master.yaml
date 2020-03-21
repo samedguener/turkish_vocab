@@ -27,8 +27,10 @@ jobs:
          gcloud config set project ${{ secrets.GCP_PROJECT_ID_PREPRODUCTION }}
     - name: Deploy ESP Gateway and Endpoints
       run: ./scripts/deploy_esp_endpoints.sh turkish-vocab-api ${{ secrets.GCP_PROJECT_ID_PREPRODUCTION}} ${{ env.region }} ""
-    - name: Deploy Functions to Preprodcution
+    - name: Deploy Functions to Preproduction
       run: make deploy
+    - name: Grant Permission to ESP
+      run: make grant_permission commit=$(echo ${GITHUB_SHA} | cut -c1-8) region=${{ env.region }} serviceaccount=${{ secrets.GCP_SA_EMAIL_PREPRODUCTION }} project=${{ secrets.GCP_PROJECT_ID_PREPRODUCTION}}
     - name: Run Integration Tests
       run: make integration
     - name: Semantic Release
