@@ -28,7 +28,7 @@ jobs:
     - name: Deploy ESP Gateway and Endpoints
       run: ./scripts/deploy_esp_endpoints.sh turkish-vocab-api ${{ secrets.GCP_PROJECT_ID_PREPRODUCTION}} ${{ env.region }} ""
     - name: Deploy Functions to Preproduction
-      run: make deploy
+      run: make deploy region=${{ env.region }} serviceaccount=${{ secrets.GCP_SA_EMAIL_PREPRODUCTION }}
     - name: Run Integration Tests
       run: make integration
     - name: Semantic Release
