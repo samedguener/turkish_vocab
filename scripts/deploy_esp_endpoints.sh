@@ -24,4 +24,4 @@ scripts/substitute.py openapi-functions.yaml --output openapi-render.yaml --valu
 
 echo "Enabling endpoint serving .."
 gcloud endpoints services deploy openapi-render.yaml \
-    --project $PROJECT_ID --impersonate-service-account $SERVICE_ACCOUNT
+    --project $PROJECT_ID --impersonate-service-account $SERVICE_ACCOUNT --log-http
