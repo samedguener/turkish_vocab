@@ -1,0 +1,22 @@
+swagger: '2.0'
+info:
+  title: Turkish Vocab API
+  description: Turkish Vocab API on Cloud Endpoints with a Google Cloud Functions backend
+  version: 1.0.0
+host: $host
+schemes:
+  - https
+produces:
+  - application/json
+paths:
+  /subscriptions:
+    get:
+      summary: Subscribe to Turkish Vocab
+      operationId: hello
+      x-google-backend:
+        address: https://$region-$projectid.cloudfunctions.net/subscriptions$commit
+      responses:
+        '200':
+          description: A successful response
+          schema:
+            type: string

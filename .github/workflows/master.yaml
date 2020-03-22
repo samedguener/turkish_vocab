@@ -1,4 +1,4 @@
-name: PR
+name: master
 on:
   push:
     branches:
@@ -8,6 +8,8 @@ jobs:
   master-job:
     name: master
     runs-on: ubuntu-latest
+    env:
+      region : europe-west1
     steps:
     - uses: actions/checkout@v2.0.0
     - uses: actions/setup-go@v1.1.2
@@ -16,17 +18,19 @@ jobs:
         go-version: '1.13.7'
     - name: Run Unit Tests
       run: go test .
-    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@0.1.1
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@0.1.2
       with:
-       service_account_email: ${{ secrets.GCP_SA_EMAIL }}
-       service_account_key: ${{ secrets.GCP_SA_KEY }}
+       service_account_email: ${{ secrets.GCP_SA_EMAIL_PREPRODUCTION }}
+       service_account_key: ${{ secrets.GCP_SA_SECRET_PREPRODUCTION }}
     - name: gcloud Set up
       run: |
-         gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
-    - name: Deploy Functions to Pre-Prodcution
-      run: make deploy_preprod
+         gcloud config set project ${{ secrets.GCP_PROJECT_ID_PREPRODUCTION }}
+    - name: Deploy ESP Gateway and Endpoints
+      run: ./scripts/deploy_esp_endpoints.sh turkish-vocab-api ${{ secrets.GCP_PROJECT_ID_PREPRODUCTION}} ${{ env.region }} "" ${{ secrets.GCP_SA_EMAIL_PREPRODUCTION }}
+    - name: Deploy Functions to Preproduction
+      run: make deploy region=${{ env.region }} serviceaccount=${{ secrets.GCP_SA_EMAIL_PREPRODUCTION }}
     - name: Run Integration Tests
-      run: sleep 10
+      run: make integration
     - name: Semantic Release
       uses: cycjimmy/semantic-release-action@v2.1.3
       env:
