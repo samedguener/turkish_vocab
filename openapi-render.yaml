@@ -3,7 +3,7 @@ info:
   title: Turkish Vocab API
   description: Turkish Vocab API on Cloud Endpoints with a Google Cloud Functions backend
   version: 1.0.0
-host: $host
+host: turkish-vocab-api-samed-himl2vr45q-ew.a.run.app
 schemes:
   - https
 produces:
@@ -14,7 +14,7 @@ paths:
       summary: Subscribe to Turkish Vocab
       operationId: subscription
       x-google-backend:
-        address: https://$region-$projectid.cloudfunctions.net/subscriptions$commit
+        address: https://europe-west1-staging-270414.cloudfunctions.net/subscriptions
       consumes:
         - application/json
       parameters:
