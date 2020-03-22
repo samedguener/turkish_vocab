@@ -6,13 +6,23 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 
 	firebase "firebase.google.com/go"
 )
 
+type Status struct {
+	Status      string `json:"status"`
+	Description string `json:"description"`
+}
+
 // SubscriptionRequest ...
 type SubscriptionRequest struct {
-	Email string `json:"email"`
+	Email               string `json:"email"`
+	IsGrammarInterested bool   `json:"grammarInterested"`
+	IsCultureInterested bool   `json:"cultureInterested"`
+	IsHistoryInterested bool   `json:"historyInterested"`
+	IsFoodInterested    bool   `json:"foodInterested"`
 }
 
 // Subscribe ...
@@ -31,9 +41,72 @@ func Subscribe(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Use the application default credentials
+	subscribed, err := isSubscribed(msg.Email)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	if subscribed {
+		status := Status{Status: "Failed", Description: "Email is already subscribed!"}
+
+		output, err := json.Marshal(status)
+		if err != nil {
+			http.Error(w, err.Error(), 500)
+			return
+		}
+		w.Header().Set("content-type", "application/json")
+		w.Write(output)
+		return
+	}
+
+	if err = saveSubscription(msg); err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	status := Status{Status: "Success", Description: "Email is successfully subscribed!"}
+
+	output, err := json.Marshal(status)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	w.Header().Set("content-type", "application/json")
+	w.Write(output)
+	return
+
+}
+
+func saveSubscription(data SubscriptionRequest) error {
+	projectID := os.Getenv("GCP_PROJECT")
+
 	ctx := context.Background()
-	conf := &firebase.Config{ProjectID: "staging-270414"}
+	conf := &firebase.Config{ProjectID: projectID}
+	app, err := firebase.NewApp(ctx, conf)
+	if err != nil {
+		return err
+	}
+
+	client, err := app.Firestore(ctx)
+	if err != nil {
+		return err
+	}
+	defer client.Close()
+
+	_, err = client.Collection("subscriptions").Doc(data.Email).Set(ctx, data)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func isSubscribed(email string) (bool, error) {
+	projectID := os.Getenv("GCP_PROJECT")
+
+	ctx := context.Background()
+	conf := &firebase.Config{ProjectID: projectID}
 	app, err := firebase.NewApp(ctx, conf)
 	if err != nil {
 		log.Fatalln(err)
@@ -41,23 +114,14 @@ func Subscribe(w http.ResponseWriter, r *http.Request) {
 
 	client, err := app.Firestore(ctx)
 	if err != nil {
-		log.Fatalln(err)
+		return false, err
 	}
 	defer client.Close()
 
-	_, _, err = client.Collection("subscriptions").Add(ctx, map[string]interface{}{
-		"email": msg.Email,
-	})
-	if err != nil {
-		log.Fatalf("Failed adding subscription: %v", err)
+	documentRef := client.Collection("subscription").Doc(email)
+	if documentRef != nil {
+		return false, nil
 	}
 
-	output, err := json.Marshal(msg)
-	if err != nil {
-		http.Error(w, err.Error(), 500)
-		return
-	}
-
-	w.Header().Set("content-type", "application/json")
-	w.Write(output)
+	return true, nil
 }

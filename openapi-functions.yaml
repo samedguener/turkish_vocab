@@ -28,8 +28,21 @@ paths:
             properties:
               email:
                 type: string
+              grammarInterested:
+                type: boolean
+              cultureInterested:
+                type: boolean
+              historyInterested:
+                type: boolean
+              foodInterested:
+                type: boolean
       responses:
         '200':
           description: A successful response
           schema:
-            type: string
+            type: object
+            properties:
+              status:
+                type: string
+              description:
+                type: string
