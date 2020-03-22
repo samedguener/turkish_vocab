@@ -12,3 +12,6 @@
 *.out
 
 .vscode/
+
+openapi-render.yaml
+.gcloudignore
