@@ -120,8 +120,8 @@ func isSubscribed(email string) (bool, error) {
 
 	documentRef := client.Collection("subscription").Doc(email)
 	if documentRef != nil {
-		return false, nil
+		return true, nil
 	}
 
-	return true, nil
+	return false, nil
 }
