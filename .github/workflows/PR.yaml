@@ -11,6 +11,7 @@ jobs:
     env:
       region : europe-west1
       GCP_PROJECT: ${{ secrets.GCP_PROJECT_ID_STAGING}}
+      GOOGLE_APPLICATION_CREDENTIALS: key.json
     steps:
     - uses: actions/checkout@master
     - uses: deepakputhraya/action-pr-title@master
@@ -32,6 +33,7 @@ jobs:
         service_account_key: ${{ secrets.GCP_SA_SECRET_STAGING }}
     - name: gcloud Set up
       run: gcloud config set project ${{ secrets.GCP_PROJECT_ID_STAGING }}
+    - run: echo -n ${{ secrets.GCP_SA_SECRET_STAGING }} | base64 --decode > $GOOGLE_APPLICATION_CREDENTIALS
     - name: Deploy ESP Gateway and Endpoints
       run: ./scripts/deploy_esp_endpoints.sh turkish-vocab-api-$(echo ${GITHUB_SHA} | cut -c1-8) ${{ secrets.GCP_PROJECT_ID_STAGING}} ${{ env.region }} $(echo ${GITHUB_SHA} | cut -c1-8) ${{ secrets.GCP_SA_EMAIL_STAGING }}
     - name: Deploy Functions to Staging

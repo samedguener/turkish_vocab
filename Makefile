@@ -7,8 +7,6 @@ delete:
 	gcloud functions delete subscriptions$(commit) --region $(region)
 
 test:
-	echo "$(serviceaccount)" > gcp_sa_key.json
-	export GOOGLE_APPLICATION_CREDENTIALS=./gcp_sa_key.json
 	go test .
 
 integration: # TODO add integration tests
