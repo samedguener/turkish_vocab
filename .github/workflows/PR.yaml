@@ -34,7 +34,7 @@ jobs:
       id: write_file
       uses: timheuer/base64-to-file@v1.0.3
       with:
-        fileName: key.json
+        fileName: 'key.json'
         encodedString: ${{ secrets.GCP_SA_SECRET_STAGING }}
     - name: Run Unit Tests
       env:
