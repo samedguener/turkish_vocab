@@ -31,7 +31,8 @@ jobs:
         service_account_key: ${{ secrets.GCP_SA_SECRET_STAGING }}
     - name: gcloud Set up
       run: gcloud config set project ${{ secrets.GCP_PROJECT_ID_STAGING }}
-    - run: echo -n ${{ secrets.GCP_SA_SECRET_STAGING }} | base64 --decode > $GOOGLE_APPLICATION_CREDENTIALS
+    - name: Prepare Google Cloud Credentials
+      run: echo -n ${{ secrets.GCP_SA_SECRET_STAGING }} | base64 --decode > $GOOGLE_APPLICATION_CREDENTIALS
     - name: Run Unit Tests
       run: make test serviceaccount=${{ secrets.GCP_SA_EMAIL_STAGING }}
     - name: Deploy ESP Gateway and Endpoints
