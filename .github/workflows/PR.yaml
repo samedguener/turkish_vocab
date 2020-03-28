@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       region : europe-west1
+      GCP_PROJECT: ${{ secrets.GCP_PROJECT_ID_STAGING}}
+      GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA_SECRET_STAGING }}
     steps:
     - uses: actions/checkout@master
     - uses: deepakputhraya/action-pr-title@master
