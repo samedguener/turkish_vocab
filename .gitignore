@@ -15,3 +15,4 @@
 
 openapi-render.yaml
 .gcloudignore
+gcp_sa_dev_key.json
