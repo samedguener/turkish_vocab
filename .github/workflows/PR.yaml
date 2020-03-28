@@ -11,7 +11,6 @@ jobs:
     env:
       region : europe-west1
       GCP_PROJECT: ${{ secrets.GCP_PROJECT_ID_STAGING}}
-      GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA_SECRET_STAGING }}
     steps:
     - uses: actions/checkout@master
     - uses: deepakputhraya/action-pr-title@master
@@ -26,7 +25,7 @@ jobs:
         stable: 'true'
         go-version: '1.13.7'
     - name: Run Unit Tests
-      run: make test 
+      run: make test serviceaccount=${{ secrets.GCP_SA_EMAIL_STAGING }}
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@0.1.2
       with:
         service_account_email: ${{ secrets.GCP_SA_EMAIL_STAGING }}
