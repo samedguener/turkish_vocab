@@ -7,6 +7,7 @@ delete:
 	gcloud functions delete subscriptions$(commit) --region $(region)
 
 test:
+	echo ${GOOGLE_APPLICATION_CREDENTIALS}
 	go test .
 
 integration: # TODO add integration tests
