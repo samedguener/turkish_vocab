@@ -38,7 +38,7 @@ jobs:
         encodedString: ${{ secrets.GCP_SA_SECRET_STAGING }}
     - name: Run Unit Tests
       env:
-        GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.write_file.outputs.filePath }}
+        GOOGLE_APPLICATION_CREDENTIALS: "${{ steps.write_file.outputs.filePath }}"
       run: make test
     - name: Deploy ESP Gateway and Endpoints
       run: ./scripts/deploy_esp_endpoints.sh turkish-vocab-api-$(echo ${GITHUB_SHA} | cut -c1-8) ${{ secrets.GCP_PROJECT_ID_STAGING}} ${{ env.region }} $(echo ${GITHUB_SHA} | cut -c1-8) ${{ secrets.GCP_SA_EMAIL_STAGING }}
