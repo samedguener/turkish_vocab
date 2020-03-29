@@ -15,6 +15,8 @@ output=$(gcloud run deploy $IMAGE_NAME --image="gcr.io/endpoints-release/endpoin
 CLOUD_RUN_HOSTNAME=$(echo $output | tr ' ' '\n' | grep "run.app")
 CLOUD_RUN_HOSTNAME=${CLOUD_RUN_HOSTNAME#"https://"}
 
+gcloud services enable $CLOUD_RUN_HOSTNAME --impersonate-service-account $SERVICE_ACCOUNT --project $PROJECT_ID
+
 gcloud run services update $IMAGE_NAME \
     --set-env-vars ENDPOINTS_SERVICE_NAME=$CLOUD_RUN_HOSTNAME \
     --region $REGION --platform managed --service-account $SERVICE_ACCOUNT

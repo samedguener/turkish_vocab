@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       region : europe-west1
+      GCP_PROJECT: ${{ secrets.GCP_PROJECT_ID_STAGING}}
     steps:
     - uses: actions/checkout@master
     - uses: deepakputhraya/action-pr-title@master
@@ -23,14 +24,15 @@ jobs:
       with:
         stable: 'true'
         go-version: '1.13.7'
-    - name: Run Unit Tests
-      run: make test 
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@0.1.2
       with:
         service_account_email: ${{ secrets.GCP_SA_EMAIL_STAGING }}
         service_account_key: ${{ secrets.GCP_SA_SECRET_STAGING }}
+        export_default_credentials: true
     - name: gcloud Set up
       run: gcloud config set project ${{ secrets.GCP_PROJECT_ID_STAGING }}
+    - name: Run Unit Tests
+      run: make test
     - name: Deploy ESP Gateway and Endpoints
       run: ./scripts/deploy_esp_endpoints.sh turkish-vocab-api-$(echo ${GITHUB_SHA} | cut -c1-8) ${{ secrets.GCP_PROJECT_ID_STAGING}} ${{ env.region }} $(echo ${GITHUB_SHA} | cut -c1-8) ${{ secrets.GCP_SA_EMAIL_STAGING }}
     - name: Deploy Functions to Staging

@@ -10,13 +10,36 @@ produces:
   - application/json
 paths:
   /subscriptions:
-    get:
+    post:
       summary: Subscribe to Turkish Vocab
-      operationId: hello
+      operationId: subscription
       x-google-backend:
         address: https://$region-$projectid.cloudfunctions.net/subscriptions$commit
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: email
+          description: The email to add to the subscription list.
+          schema:
+            type: object
+            required:
+              - email
+            properties:
+              email:
+                type: string
+              interests:
+                type: array
+                items:
+                  type: string
+
       responses:
         '200':
           description: A successful response
           schema:
-            type: string
+            type: object
+            properties:
+              status:
+                type: string
+              description:
+                type: string

@@ -23,8 +23,7 @@ jobs:
        service_account_email: ${{ secrets.GCP_SA_EMAIL_PREPRODUCTION }}
        service_account_key: ${{ secrets.GCP_SA_SECRET_PREPRODUCTION }}
     - name: gcloud Set up
-      run: |
-         gcloud config set project ${{ secrets.GCP_PROJECT_ID_PREPRODUCTION }}
+      run: gcloud config set project ${{ secrets.GCP_PROJECT_ID_PREPRODUCTION }}
     - name: Deploy ESP Gateway and Endpoints
       run: ./scripts/deploy_esp_endpoints.sh turkish-vocab-api ${{ secrets.GCP_PROJECT_ID_PREPRODUCTION}} ${{ env.region }} "" ${{ secrets.GCP_SA_EMAIL_PREPRODUCTION }}
     - name: Deploy Functions to Preproduction
