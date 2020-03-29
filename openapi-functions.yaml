@@ -28,14 +28,11 @@ paths:
             properties:
               email:
                 type: string
-              grammarInterested:
-                type: boolean
-              cultureInterested:
-                type: boolean
-              historyInterested:
-                type: boolean
-              foodInterested:
-                type: boolean
+              interests:
+                type: array
+                items:
+                  type: string
+
       responses:
         '200':
           description: A successful response
