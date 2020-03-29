@@ -84,6 +84,27 @@ func ConfirmSubscription(w http.ResponseWriter, r *http.Request) {
 		w.Write(output)
 		return
 	}
+
+	subscribed, err := isSubscribed(*msg.Email)
+	if err != nil {
+		log.Printf(err.Error())
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	if !subscribed {
+		status := Status{Status: "failure", Description: "Email is not subscribed!"}
+
+		output, err := json.Marshal(status)
+		if err != nil {
+			log.Printf(err.Error())
+			http.Error(w, err.Error(), 500)
+			return
+		}
+		w.Header().Set("content-type", "application/json")
+		w.Write(output)
+	}
+
 }
 
 // Subscribe ...
