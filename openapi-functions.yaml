@@ -19,12 +19,13 @@ paths:
         - application/json
       parameters:
         - in: body
-          name: email
-          description: The email to add to the subscription list.
+          name: subscription_body
+          description: The subscription request body
           schema:
             type: object
             required:
               - email
+              - interests
             properties:
               email:
                 type: string
@@ -32,10 +33,77 @@ paths:
                 type: array
                 items:
                   type: string
-
       responses:
         '200':
           description: A successful response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              description:
+                type: string
+        '400':
+          description: A bad request response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              description:
+                type: string
+        '404':
+          description: A malformed response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              description:
+                type: string
+  /subscriptions/confirm:
+    post:
+      summary: Confirm Subscription to Turkish Vocab
+      operationId: subscription_confirm
+      x-google-backend:
+        address: https://$region-$projectid.cloudfunctions.net/confirm$commit
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: subscription_confirm_body
+          description: The subscription confirm request body
+          schema:
+            type: object
+            required:
+              - email
+              - hash
+            properties:
+              email:
+                type: string
+              hash:
+                type: string
+      responses:
+        '200':
+          description: A successful response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              description:
+                type: string
+        '400':
+          description: A bad request response
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              description:
+                type: string
+        '404':
+          description: A malformed response
           schema:
             type: object
             properties:
