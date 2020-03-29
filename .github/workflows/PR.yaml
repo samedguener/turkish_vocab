@@ -28,17 +28,10 @@ jobs:
       with:
         service_account_email: ${{ secrets.GCP_SA_EMAIL_STAGING }}
         service_account_key: ${{ secrets.GCP_SA_SECRET_STAGING }}
+        export_default_credentials: true
     - name: gcloud Set up
       run: gcloud config set project ${{ secrets.GCP_PROJECT_ID_STAGING }}
-    - name: Prepare Google Cloud Credentials
-      id: write_file
-      uses: timheuer/base64-to-file@v1.0.3
-      with:
-        fileName: 'key.json'
-        encodedString: ${{ secrets.GCP_SA_SECRET_STAGING }}
     - name: Run Unit Tests
-      env:
-        GOOGLE_APPLICATION_CREDENTIALS: "${{ steps.write_file.outputs.filePath }}"
       run: make test
     - name: Deploy ESP Gateway and Endpoints
       run: ./scripts/deploy_esp_endpoints.sh turkish-vocab-api-$(echo ${GITHUB_SHA} | cut -c1-8) ${{ secrets.GCP_PROJECT_ID_STAGING}} ${{ env.region }} $(echo ${GITHUB_SHA} | cut -c1-8) ${{ secrets.GCP_SA_EMAIL_STAGING }}
