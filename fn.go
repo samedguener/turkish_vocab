@@ -27,6 +27,65 @@ type SubscriptionRequest struct {
 	Interests []*string `json:"interests"`
 }
 
+// SubscriptionConfirmationRequest ...
+type SubscriptionConfirmationRequest struct {
+	Email *string `json:"email"`
+	Hash  *string `json:"hash"`
+}
+
+// ConfirmSubscription ...
+func ConfirmSubscription(w http.ResponseWriter, r *http.Request) {
+	b, err := ioutil.ReadAll(r.Body)
+	defer r.Body.Close()
+	if err != nil {
+		log.Printf(err.Error())
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	var msg SubscriptionConfirmationRequest
+	err = json.Unmarshal(b, &msg)
+	if err != nil {
+		log.Printf(err.Error())
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	if msg.Email == nil {
+		err = fmt.Errorf("missing email")
+		log.Printf(err.Error())
+
+		w.Header().Set("content-type", "application/json")
+		status := Status{Status: "failure", Description: "Malformed request! Missing key email!"}
+		output, err := json.Marshal(status)
+		if err != nil {
+			log.Printf(err.Error())
+			http.Error(w, err.Error(), 500)
+			return
+		}
+		w.WriteHeader(400)
+		w.Write(output)
+		return
+	}
+
+	if msg.Hash == nil {
+		err = fmt.Errorf("missing interests")
+		log.Printf(err.Error())
+
+		w.Header().Set("content-type", "application/json")
+		status := Status{Status: "failure", Description: "Malformed request! Missing key hash!"}
+		output, err := json.Marshal(status)
+		if err != nil {
+			log.Printf(err.Error())
+			http.Error(w, err.Error(), 500)
+			return
+		}
+		w.WriteHeader(400)
+		w.Write(output)
+		return
+	}
+}
+
 // Subscribe ...
 func Subscribe(w http.ResponseWriter, r *http.Request) {
 	b, err := ioutil.ReadAll(r.Body)
